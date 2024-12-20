@@ -4,6 +4,7 @@ import DAO.AccountDAO;
 import DAO.MessagesDAO;
 import Model.Message;
 import Util.ConnectionUtil;
+import java.util.ArrayList;
 
 public class MessagesService {
     private MessagesDAO msgDAO;
@@ -30,5 +31,11 @@ public class MessagesService {
         }
 
         return msgDAO.createMessage(newMsg);
+    }
+   
+    public ArrayList<Message> getAllMessages(){
+        
+
+        return msgDAO.getAllMessages();
     }
 }

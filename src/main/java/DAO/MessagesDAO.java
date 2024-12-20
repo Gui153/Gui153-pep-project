@@ -41,6 +41,28 @@ public class MessagesDAO {
 
         return null;
     }
+
+    public ArrayList<Message> getAllMessages(){
+        ArrayList<Message> messages = new ArrayList<Message>();
+        Connection con = ConnectionUtil.getConnection();
+
+        try{
+            String sql = "select * from message;";
+            PreparedStatement stmt = con.prepareStatement(sql);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()){
+                messages.add(new Message(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getLong(4)));
+            }
+            
+
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+
+        return messages;
+    }
     
     
 }

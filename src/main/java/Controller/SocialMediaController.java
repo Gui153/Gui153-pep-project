@@ -7,6 +7,7 @@ import Model.Account;
 import Model.Message;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+import java.util.ArrayList;
 
 import Service.AccountService;
 import Service.MessagesService;
@@ -37,6 +38,7 @@ public class SocialMediaController {
         app.post("/register", this:: registerHandler);
         app.post("/login", this:: loginHandler);
         app.post("messages", this::createPostHandler);
+        app.get("messages", this::getAllMessagesHandler);
         return app;
     }
 
@@ -94,6 +96,14 @@ public class SocialMediaController {
             context.status(400);
         }
 
+    }
+    private void getAllMessagesHandler(Context context) throws JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+
+        ArrayList<Message> messages = messagesService.getAllMessages();
+
+        context.json(mapper.writeValueAsString(messages)).status(200);
+        
     }
 
 
