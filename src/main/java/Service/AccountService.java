@@ -21,11 +21,27 @@ public class AccountService {
             return null;
         }
 
+        if(accDAO.getAccountByUsername(newAcc) != null){
+            return null;
+        }
+
         System.out.println("service received:"+newAcc);
         Account created = accDAO.registerAccount(newAcc);
         System.out.println("service created:"+created);
 
         return created;
+    }
+
+    public Account loginAccount (Account acc){
+        System.out.println("service received before if:"+acc);
+        //check if it is a valid user
+
+        
+        System.out.println("service login received:"+acc);
+        Account logged = accDAO.loginAccount(acc);
+        System.out.println("service login logged in:"+logged);
+
+        return logged;
     }
 
 }

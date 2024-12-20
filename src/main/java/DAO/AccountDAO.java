@@ -43,8 +43,63 @@ public class AccountDAO {
         return null;
     }
     
+    public Account getAccountByUsername( Account user ){
 
+        //create connection
+        Connection con = ConnectionUtil.getConnection();
+        System.out.println("DAO received user"+user);
+        try{
+            // insert the user
+            String sql = "select * from account where username =  ?;";
+            PreparedStatement stmt = con.prepareStatement(sql);
 
+            stmt.setString(1, user.getUsername());
+            
+
+            ResultSet rs = stmt.executeQuery();
+            
+            if(rs.next()){
+                System.out.println(rs.getRow());
+                return new Account(rs.getInt(1), user.getUsername(), user.getPassword());
+            }
+             
+
+        }catch(SQLException e){
+            System.out.println(e);
+            return null;
+        }
+
+        return null;
+    }
+
+    public Account loginAccount( Account user ){
+
+        //create connection
+        Connection con = ConnectionUtil.getConnection();
+        System.out.println("DAO received user"+user);
+        try{
+            // insert the user
+            String sql = "select * from account where username =  ? and password = ?;";
+            PreparedStatement stmt = con.prepareStatement(sql);
+
+            stmt.setString(1, user.getUsername());
+            stmt.setString(2, user.getPassword());
+
+            ResultSet rs = stmt.executeQuery();
+            
+            if(rs.next()){
+                System.out.println(rs.getRow());
+                return new Account(rs.getInt(1), user.getUsername(), user.getPassword());
+            }
+             
+
+        }catch(SQLException e){
+            System.out.println(e);
+            return null;
+        }
+
+        return null;
+    }
 
 
 }
