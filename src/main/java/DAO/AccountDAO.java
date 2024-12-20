@@ -26,12 +26,11 @@ public class AccountDAO {
             stmt.setString(2, newUser.getPassword());
 
             stmt.executeUpdate();
-            // if no keys are generated after the insert, then it means that the user was not created
+            // if no keys are generated after the insert, then it means that the user was not created or there is a user with that name already
             ResultSet pkey = stmt.getGeneratedKeys();
-            System.out.println(pkey.getRow());
-
+            System.out.println("before if");
             if(pkey.next()){
-                System.out.println(pkey.getInt(1));
+                System.out.println(pkey.getRow());
                 return new Account(pkey.getInt(1), newUser.getUsername(), newUser.getPassword());
             }
              
