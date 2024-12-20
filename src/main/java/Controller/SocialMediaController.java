@@ -49,9 +49,9 @@ public class SocialMediaController {
         ObjectMapper mapper = new ObjectMapper();
 
         Account acc = mapper.readValue(context.body(), Account.class);
-        System.out.println("received acount:"+acc);
+        //System.out.println("received acount:"+acc);
         Account createdAcc = accountService.registerAccount(acc);
-        System.out.println("Created acount2:"+createdAcc);
+        //System.out.println("Created acount2:"+createdAcc);
         if(createdAcc != null){
             context.json(mapper.writeValueAsString(createdAcc));
         }
@@ -65,9 +65,9 @@ public class SocialMediaController {
         ObjectMapper mapper = new ObjectMapper();
 
         Account acc = mapper.readValue(context.body(), Account.class);
-        System.out.println("login received acount:"+acc);
+        //System.out.println("login received acount:"+acc);
         Account loginAcc = accountService.loginAccount(acc);
-        System.out.println("login  acount:"+loginAcc);
+        //System.out.println("login  acount:"+loginAcc);
         if(loginAcc != null){
             context.json(mapper.writeValueAsString(loginAcc));
         }

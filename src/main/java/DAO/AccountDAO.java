@@ -16,11 +16,11 @@ public class AccountDAO {
 
         //create connection
         Connection con = ConnectionUtil.getConnection();
-        System.out.println("DAO received user"+newUser);
+        //System.out.println("DAO received user"+newUser);
         try{
             // insert the user
             String sql = "insert into account ( username, password) values ( ?, ?)";
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             stmt.setString(1, newUser.getUsername());
             stmt.setString(2, newUser.getPassword());
@@ -28,9 +28,9 @@ public class AccountDAO {
             stmt.executeUpdate();
             // if no keys are generated after the insert, then it means that the user was not created or there is a user with that name already
             ResultSet pkey = stmt.getGeneratedKeys();
-            System.out.println("before if");
+            //System.out.println("before if");
             if(pkey.next()){
-                System.out.println(pkey.getRow());
+                //System.out.println(pkey.getRow());
                 return new Account(pkey.getInt(1), newUser.getUsername(), newUser.getPassword());
             }
              
@@ -76,7 +76,7 @@ public class AccountDAO {
 
         //create connection
         Connection con = ConnectionUtil.getConnection();
-        System.out.println("DAO received user"+user);
+        //System.out.println("DAO received user"+user);
         try{
             // insert the user
             String sql = "select * from account where username =  ? and password = ?;";
@@ -88,7 +88,7 @@ public class AccountDAO {
             ResultSet rs = stmt.executeQuery();
             
             if(rs.next()){
-                System.out.println(rs.getRow());
+                //System.out.println(rs.getRow());
                 return new Account(rs.getInt(1), user.getUsername(), user.getPassword());
             }
              
