@@ -47,7 +47,7 @@ public class AccountDAO {
 
         //create connection
         Connection con = ConnectionUtil.getConnection();
-        System.out.println("DAO received user"+user);
+        //System.out.println("DAO received user"+user);
         try{
             // insert the user
             String sql = "select * from account where username =  ?;";
@@ -59,8 +59,37 @@ public class AccountDAO {
             ResultSet rs = stmt.executeQuery();
             
             if(rs.next()){
-                System.out.println(rs.getRow());
+                //System.out.println(rs.getRow());
                 return new Account(rs.getInt(1), user.getUsername(), user.getPassword());
+            }
+             
+
+        }catch(SQLException e){
+            System.out.println(e);
+            return null;
+        }
+
+        return null;
+    }
+
+    public Account getAccountByID( int ID ){
+
+        //create connection
+        Connection con = ConnectionUtil.getConnection();
+        //System.out.println("DAO received user"+user);
+        try{
+            // insert the user
+            String sql = "select * from account where account_id =  ?;";
+            PreparedStatement stmt = con.prepareStatement(sql);
+
+            stmt.setInt(1, ID);
+            
+
+            ResultSet rs = stmt.executeQuery();
+            
+            if(rs.next()){
+                
+                return new Account(rs.getInt(1), rs.getString(2), rs.getString(3));
             }
              
 
