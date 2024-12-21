@@ -78,4 +78,19 @@ public class MessagesService {
         return msgDAO.patchMessageById(complete);
     }
     
+
+    
+    public ArrayList<Message> getMessageByAccountId(String id){
+
+        int intId ;
+        try{
+            intId =  Integer.parseInt(id);
+        }catch ( NumberFormatException e){
+            System.out.println(e);
+            return null;
+        }   
+
+
+      return msgDAO.getMessageByAccountId(intId);
+  }
 }

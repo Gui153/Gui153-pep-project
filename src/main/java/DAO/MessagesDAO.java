@@ -144,6 +144,34 @@ public class MessagesDAO {
         return null;
 
     }
+
+    public  ArrayList<Message> getMessageByAccountId(int id){
+        Connection con = ConnectionUtil.getConnection();
+        ArrayList<Message> msgs = new ArrayList<Message>();
+        try{
+            String sql = "select * from message where posted_by = ?;";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+            
+            stmt.setInt(1, id);
+            
+            ResultSet rs =  stmt.executeQuery();
+
+            
+            while(rs.next() ){
+                msgs.add(new Message(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getLong(4) ));
+            }
+
+            return msgs;
+            
+
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+
+        return null;
+
+    }
     
     
 }
