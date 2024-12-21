@@ -39,6 +39,9 @@ public class SocialMediaController {
         app.post("/login", this:: loginHandler);
         app.post("messages", this::createPostHandler);
         app.get("messages", this::getAllMessagesHandler);
+        app.get("messages/{message_id}", this::getMessageByIdHandler);
+        app.delete("messages/{message_id}", this::deleteMessageByIdHandler);
+        app.patch("messages/{message_id}", this::patchMessageByIdHandler);
         return app;
     }
 
@@ -103,6 +106,61 @@ public class SocialMediaController {
         ArrayList<Message> messages = messagesService.getAllMessages();
 
         context.json(mapper.writeValueAsString(messages)).status(200);
+        
+    }
+
+    private void getMessageByIdHandler(Context context) throws JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        String id = context.pathParam("message_id");
+        
+        Message msg = messagesService.getMessageById(id);
+        //System.out.println(msg);
+        if( msg == null){
+            context.result();
+            return;
+        }
+        context.json(mapper.writeValueAsString(msg)).status(200);
+        
+    }
+
+    private void deleteMessageByIdHandler(Context context) throws JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        String id = context.pathParam("message_id");
+        
+        Message msg = messagesService.deleteMessageById(id);
+        System.out.println(msg);
+        if( msg == null){
+            context.result();
+            return;
+        }
+        context.json(mapper.writeValueAsString(msg)).status(200);
+        
+    }
+
+    private void patchMessageByIdHandler(Context context) throws JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        String id = context.pathParam("message_id");
+        Message msg = mapper.readValue(context.body(), Message.class);
+        
+        int intId ;
+        try{
+            intId =  Integer.parseInt(id);
+        }catch ( NumberFormatException e){
+            System.out.println(e);
+            context.status(400);
+            return;
+        }   
+
+        msg.setMessage_id(intId);
+
+
+        msg = messagesService.patchMessageById(msg);
+        System.out.println(msg);
+        if( msg == null){
+            context.status(400);
+            return;
+        }
+        context.json(mapper.writeValueAsString(msg)).status(200);
         
     }
 
